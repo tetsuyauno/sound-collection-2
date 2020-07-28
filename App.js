@@ -31,6 +31,8 @@ import Sound from 'react-native-sound';
 Sound.setCategory('Playback');
 
 const App: () => React$Node = () => {
+  let isPlaying = false;
+
   const whoosh = new Sound(
     require('./assets/sounds/dryer.mp3'),
     Sound.MAIN_BUNDLE,
@@ -58,7 +60,16 @@ const App: () => React$Node = () => {
     },
   );
 
-  const play = () => whoosh.play();
+  const play = () => {
+    whoosh.play();
+    isPlaying = true;
+  };
+  const stopPlaying = () => {
+    whoosh.stop();
+    isPlaying = false;
+  };
+
+  const togglePlay = () => (isPlaying ? stopPlaying() : play());
 
   return (
     <>
@@ -75,7 +86,7 @@ const App: () => React$Node = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <TouchableOpacity onPress={play}>
+              <TouchableOpacity onPress={togglePlay}>
                 <Image source={require('./assets/img/test.png')} />
               </TouchableOpacity>
               <Text style={styles.sectionTitle}>TESTING</Text>
