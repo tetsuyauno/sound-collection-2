@@ -14,6 +14,7 @@ import {
   View,
   Text,
   StatusBar,
+  Image,
 } from 'react-native';
 
 import {
@@ -40,6 +41,7 @@ const App: () => React$Node = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
+              <Image source={require('./assets/img/test.png')} />
               <Text style={styles.sectionTitle}>TESTING</Text>
               <Text style={styles.sectionDescription}>
                 Edit <Text style={styles.highlight}>App.js</Text> to change this
