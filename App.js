@@ -15,6 +15,7 @@ import {
   Text,
   StatusBar,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -25,7 +26,40 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import Sound from 'react-native-sound';
+
+Sound.setCategory('Playback');
+
 const App: () => React$Node = () => {
+  const whoosh = new Sound(
+    require('./assets/sounds/dryer.mp3'),
+    Sound.MAIN_BUNDLE,
+    (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // loaded successfully
+      console.log(
+        'duration in seconds: ' +
+          whoosh.getDuration() +
+          'number of channels: ' +
+          whoosh.getNumberOfChannels(),
+      );
+
+      // Play the sound with an onEnd callback
+      whoosh.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    },
+  );
+
+  const play = () => whoosh.play();
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -41,7 +75,9 @@ const App: () => React$Node = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Image source={require('./assets/img/test.png')} />
+              <TouchableOpacity onPress={play}>
+                <Image source={require('./assets/img/test.png')} />
+              </TouchableOpacity>
               <Text style={styles.sectionTitle}>TESTING</Text>
               <Text style={styles.sectionDescription}>
                 Edit <Text style={styles.highlight}>App.js</Text> to change this
