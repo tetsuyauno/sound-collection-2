@@ -1,64 +1,39 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
+  Platform,
   ScrollView,
   View,
   Text,
-  StatusBar,
   Image,
   TouchableOpacity,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Sound from 'react-native-sound';
 
 Sound.setCategory('Playback');
 
-const App: () => React$Node = () => {
+const App = () => {
   let isPlaying = false;
 
-  const whoosh = new Sound(
-    require('./assets/sounds/dryer.mp3'),
-    Sound.MAIN_BUNDLE,
-    (error) => {
-      if (error) {
-        console.log('failed to load the sound', error);
-        return;
-      }
-      // loaded successfully
-      console.log(
-        'duration in seconds: ' +
-          whoosh.getDuration() +
-          'number of channels: ' +
-          whoosh.getNumberOfChannels(),
-      );
+  var soundPath = './assets/sounds/dryer.mp3';
 
-      // Play the sound with an onEnd callback
-      whoosh.play((success) => {
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-        }
-      });
-    },
-  );
+  if (Platform.OS === 'android') {
+    whoosh = new Sound(require(soundPath), Sound.MAIN_BUNDLE, (e) => {
+      if (e) {
+        console.log('failed to load the sound', e);
+      }
+    });
+  } else {
+    whoosh = new Sound(require(soundPath), async (e) => {
+      if (e) {
+        console.log('failed to load the sound', e);
+      }
+    });
+  }
 
   const play = () => {
     whoosh.play();
@@ -73,47 +48,21 @@ const App: () => React$Node = () => {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <TouchableOpacity onPress={togglePlay}>
-                <Image source={require('./assets/img/test.png')} />
-              </TouchableOpacity>
-              <Text style={styles.sectionTitle}>TESTING</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
+          <View>
+            <TouchableOpacity onPress={togglePlay}>
+              <Image source={require('./assets/img/test.png')} />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity onPress={togglePlay}>
+              <Text style={isPlaying === true ? styles.red : styles.black}>
+                Play
               </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -123,14 +72,25 @@ const App: () => React$Node = () => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: Colors.lighter,
+    backgroundColor: Colors.dark,
+  },
+  black: {
+    width: 88,
+    height: 88,
+    color: Colors.black,
+  },
+  red: {
+    width: 88,
+    height: 88,
+    color: Colors.white,
   },
   engine: {
     position: 'absolute',
     right: 0,
   },
   body: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.black,
+    flex: 1,
   },
   sectionContainer: {
     marginTop: 32,
