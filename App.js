@@ -86,9 +86,33 @@ const App: () => React$Node = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <TouchableOpacity onPress={togglePlay}>
-                <Image source={require('./assets/img/test.png')} />
-              </TouchableOpacity>
+              <Text style={styles.sectionTitle}>Nature</Text>
+              <View style={styles.icons}>
+                <TouchableOpacity onPress={togglePlay}>
+                  <Image
+                    source={require('./assets/img/fire.png')}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={togglePlay}>
+                  <Image
+                    source={require('./assets/img/river.png')}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={togglePlay}>
+                  <Image
+                    source={require('./assets/img/wave.png')}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={togglePlay}>
+                  <Image
+                    source={require('./assets/img/clock.png')}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+              </View>
               <Text style={styles.sectionTitle}>TESTING</Text>
               <Text style={styles.sectionDescription}>
                 Edit <Text style={styles.highlight}>App.js</Text> to change this
@@ -130,7 +154,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   body: {
-    backgroundColor: Colors.white,
+    backgroundColor: '#b5d6ce',
   },
   sectionContainer: {
     marginTop: 32,
@@ -140,6 +164,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     color: Colors.black,
+    marginBottom: 10,
   },
   sectionDescription: {
     marginTop: 8,
@@ -157,6 +182,19 @@ const styles = StyleSheet.create({
     padding: 4,
     paddingRight: 12,
     textAlign: 'right',
+  },
+  icons: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  icon: {
+    flex: 1,
+    width: 70,
+    height: 70,
+    padding: 40,
+    backgroundColor: '#fffff0',
+    borderRadius: 10,
   },
 });
 
