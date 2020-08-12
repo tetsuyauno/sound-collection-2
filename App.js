@@ -28,11 +28,14 @@ import {
 
 import Sound from 'react-native-sound';
 
+// import {soundData} from './sounds.js';
+
 Sound.setCategory('Playback');
 
 const App: () => React$Node = () => {
   let isPlaying = false;
 
+  // console.log('soundData');
   const whoosh = new Sound(
     require('./assets/sounds/dryer.mp3'),
     Sound.MAIN_BUNDLE,
@@ -61,6 +64,7 @@ const App: () => React$Node = () => {
   );
 
   const play = () => {
+    console.log('test');
     whoosh.play();
     isPlaying = true;
   };

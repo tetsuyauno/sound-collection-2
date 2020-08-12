@@ -1,4 +1,4 @@
-const sounds = [
+export const soundData = [
   {
     title: 'fire',
     image: './assets/img/fire.png',
@@ -15,10 +15,8 @@ const sounds = [
     file: './assets/sounds/wave.mp3',
   },
   {
-    title: 'clock',
-    image: './assets/img/clock.png',
-    file: './assets/sounds/clock.mp3',
+    title: 'dryer',
+    image: './assets/img/dryer.png',
+    file: './assets/sounds/dryer.mp3',
   },
 ];
-
-export default sounds;
