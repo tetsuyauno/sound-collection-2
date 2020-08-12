@@ -73,79 +73,84 @@ const App: () => React$Node = () => {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Nature</Text>
-              <View style={styles.icons}>
-                <TouchableOpacity onPress={togglePlay}>
-                  <Image
-                    source={require('./assets/img/fire.png')}
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={togglePlay}>
-                  <Image
-                    source={require('./assets/img/river.png')}
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={togglePlay}>
-                  <Image
-                    source={require('./assets/img/wave.png')}
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={togglePlay}>
-                  <Image
-                    source={require('./assets/img/clock.png')}
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.sectionTitle}>TESTING</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
+      <View style={styles.iconsWrapperRow}>
+        <TouchableOpacity onPress={togglePlay}>
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require('./assets/img/fire.png')}
+            />
           </View>
-        </ScrollView>
-      </SafeAreaView>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={togglePlay}>
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require('./assets/img/river.png')}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={togglePlay}>
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require('./assets/img/wave.png')}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={togglePlay}>
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require('./assets/img/clock.png')}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.iconsWrapperRow}>
+        <TouchableOpacity onPress={togglePlay}>
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require('./assets/img/fire.png')}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={togglePlay}>
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require('./assets/img/river.png')}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={togglePlay}>
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require('./assets/img/wave.png')}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={togglePlay}>
+          <View style={styles.iconContainer}>
+            <Image
+              style={styles.icon}
+              source={require('./assets/img/clock.png')}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  iconsWrapperRow: {
+    marginHorizontal: 'auto',
+    maxWidth: 100,
+    flexDirection: 'row',
+  },
   scrollView: {
     backgroundColor: Colors.lighter,
   },
@@ -188,13 +193,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  icon: {
-    flex: 1,
-    width: 70,
-    height: 70,
-    padding: 40,
-    backgroundColor: '#fffff0',
+  iconContainer: {
+    padding: 25,
     borderRadius: 10,
+    backgroundColor: '#333',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 10,
+    marginTop: 10,
+  },
+  icon: {
+    width: 33,
+    height: 33,
   },
 });
 
