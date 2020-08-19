@@ -6,59 +6,77 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Image, Button, TouchableOpacity} from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Sound from 'react-native-sound';
 
-import {soundData} from './sounds.js';
+import {soundData} from './sounds';
 
 Sound.setCategory('Playback');
 
 const App: () => React$Node = () => {
   let isPlaying = false;
-  const soundFile = soundData[1].file;
 
-  console.log(soundData[0]);
-  const whoosh = new Sound(soundFile, Sound.MAIN_BUNDLE, (error) => {
-    if (error) {
-      console.log('failed to load the sound', error);
-      return;
+  console.log(soundData);
+  const [sound, setSound] = useState(null);
+  const [status, setStatus] = useState('paused');
+  console.log('SOUNDDDDDD', {sound});
+
+  const playSound = (file) => {
+    if (sound) {
+      sound.play();
+      // setStatus('playing');
+    } else {
+      // setStatus('loading');
+      const newSound = new Sound(file, Sound.MAIN_BUNDLE, (error) => {
+        if (error) {
+          console.log('failed to load the sound', error);
+        } else {
+          setSound(newSound);
+          newSound.play();
+          // setStatus('playing');
+        }
+      });
     }
-    // loaded successfully
-    console.log(
-      'duration in seconds: ' +
-        whoosh.getDuration() +
-        'number of channels: ' +
-        whoosh.getNumberOfChannels(),
-    );
+  };
 
-    // Play the sound with an onEnd callback
-    whoosh.play((success) => {
-      if (success) {
-        console.log('successfully finished playing');
-      } else {
-        console.log('playback failed due to audio decoding errors');
+  const stop = () => {
+    if (sound) {
+      sound.stop();
+      setSound(null);
+      // setStatus('paused');
+    }
+  };
+
+  const whoosh = new Sound(
+    require('./assets/sounds/dryer.mp3'),
+    Sound.MAIN_BUNDLE,
+    (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
       }
-    });
-  });
+      // loaded successfully
+      console.log(
+        'duration in seconds: ' +
+          whoosh.getDuration() +
+          'number of channels: ' +
+          whoosh.getNumberOfChannels(),
+      );
+
+      // Play the sound with an onEnd callback
+      whoosh.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    },
+  );
 
   const play = () => {
     console.log('test');
@@ -83,7 +101,8 @@ const App: () => React$Node = () => {
             />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={togglePlay}>
+        <TouchableOpacity
+          onPress={playSound('https://old.knorcedger.com/songs/mySong.mp3')}>
           <View style={styles.iconContainer}>
             <Image
               style={styles.icon}
@@ -91,6 +110,12 @@ const App: () => React$Node = () => {
             />
           </View>
         </TouchableOpacity>
+        <Button
+          onPress={stop}
+          title="Stop"
+          color="#841584"
+          accessibilityLabel="pause button"
+        />
         <TouchableOpacity onPress={togglePlay}>
           <View style={styles.iconContainer}>
             <Image
