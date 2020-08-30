@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -30,119 +30,52 @@ import Sound from 'react-native-sound';
 
 import {soundData} from './sounds.js';
 
-Sound.setCategory('Playback');
-
 const App: () => React$Node = () => {
-  let isPlaying = false;
-  const soundFile = soundData[1].file;
+  const [sound, setSound] = useState(null);
+  const [file, setFile] = useState(null);
 
-  console.log(soundData[0]);
-  const whoosh = new Sound(soundFile, Sound.MAIN_BUNDLE, (error) => {
-    if (error) {
-      console.log('failed to load the sound', error);
-      return;
-    }
-    // loaded successfully
-    console.log(
-      'duration in seconds: ' +
-        whoosh.getDuration() +
-        'number of channels: ' +
-        whoosh.getNumberOfChannels(),
-    );
-
-    // Play the sound with an onEnd callback
-    whoosh.play((success) => {
-      if (success) {
-        console.log('successfully finished playing');
-      } else {
-        console.log('playback failed due to audio decoding errors');
+  const playFile = (file) => {
+    const newSound = new Sound(file, Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
       }
+      setSound(newSound);
+      newSound.play();
     });
-  });
-
-  const play = () => {
-    console.log('test');
-    whoosh.play();
-    isPlaying = true;
-  };
-  const stopPlaying = () => {
-    whoosh.stop();
-    isPlaying = false;
   };
 
-  const togglePlay = () => (isPlaying ? stopPlaying() : play());
+  const handlePress = (file) => {
+    if (sound) {
+      pause(sound);
+      //if different icon is clicked
+      if (sound._filename.concat('.mp3') !== file) {
+        playFile(file);
+      } else {
+        setSound(null);
+      }
+    } else {
+      playFile(file);
+    }
+  };
+
+  const pause = (sound) => {
+    sound.stop();
+    setSound(null);
+  };
 
   return (
-    <>
-      <View style={styles.iconsWrapperRow}>
-        <TouchableOpacity onPress={togglePlay}>
-          <View style={styles.iconContainer}>
-            <Image
-              style={styles.icon}
-              source={require('./assets/img/fire.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={togglePlay}>
-          <View style={styles.iconContainer}>
-            <Image
-              style={styles.icon}
-              source={require('./assets/img/river.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={togglePlay}>
-          <View style={styles.iconContainer}>
-            <Image
-              style={styles.icon}
-              source={require('./assets/img/wave.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={togglePlay}>
-          <View style={styles.iconContainer}>
-            <Image
-              style={styles.icon}
-              source={require('./assets/img/clock.png')}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.iconsWrapperRow}>
-        <TouchableOpacity onPress={togglePlay}>
-          <View style={styles.iconContainer}>
-            <Image
-              style={styles.icon}
-              source={require('./assets/img/fire.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={togglePlay}>
-          <View style={styles.iconContainer}>
-            <Image
-              style={styles.icon}
-              source={require('./assets/img/river.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={togglePlay}>
-          <View style={styles.iconContainer}>
-            <Image
-              style={styles.icon}
-              source={require('./assets/img/wave.png')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={togglePlay}>
-          <View style={styles.iconContainer}>
-            <Image
-              style={styles.icon}
-              source={require('./assets/img/clock.png')}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
-    </>
+    <View style={styles.iconsWrapperRow}>
+      {soundData.map((e, i) => {
+        return (
+          <TouchableOpacity key={i} onPress={() => handlePress(e.file)}>
+            <View style={styles.iconContainer}>
+              <Image style={styles.icon} source={e.image} />
+            </View>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
   );
 };
 
